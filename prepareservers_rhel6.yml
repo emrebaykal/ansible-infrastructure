@@ -1,0 +1,67 @@
+---
+- name: Enterprise Linux Server 6
+  hosts: all
+  
+  vars:
+   password : doZTsiy2t.Gt6
+   user : dogfish
+
+  tasks:
+   - block:
+     - name: Disable Selinux
+       selinux:
+         state: disabled  
+     
+     - name: Disable Firewall Service
+       service:
+          name: iptables
+          state: stopped
+          enabled: no
+   
+     - name: Add ansible service user account
+       user:
+         name: dogfish
+         shell: /bin/bash
+         groups: wheel
+         password: doZTsiy2t.Gt6
+         append: yes
+
+     - name: Allow wheel group to have passwordless sudo
+       lineinfile:
+         dest: /etc/sudoers
+         state: present
+         regexp: '^%wheel'
+         line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+   - block: 
+     - name: download file with bootstrap.py
+       get_url:
+         url: http://lxsatt01/pub/bootstrap.py
+         dest: /root/bootstrap.py
+         mode: 0775
+     
+     - name: Run bootstrap.py script
+       command: /root/bootstrap.py -l admin -p 'red83lera' -s lxsatt01.linuxera.hq -o linuxera -L IST -g 'RHEL 6 OS Host Group' -a 'RHEL6 OS' --rex --rex-user dogfish --force
+
+     - name: upgrade all packages
+       yum:
+         name: '*'
+         state: latest
+
+     - name: Install Required Packages
+       yum:
+         name: unzip,java-1.8.0-openjdk,net-tools,bind-utils,tcpdump,nmap
+         state: latest
+
+   - block:
+     - name: Disallow root SSH access
+       lineinfile: dest=/etc/ssh/sshd_config
+         regexp="^PermitRootLogin"
+         line="PermitRootLogin no"
+         state=present
+       notify: Restart ssh
+      
+  handlers:
+    - name: Restart ssh
+      service: name=sshd state=restarted
+...
