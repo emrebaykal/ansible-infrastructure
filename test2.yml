@@ -11,3 +11,9 @@
      - name: Disable Selinux
        selinux:
          state: disabled
+         
+  tasks:
+   - block:
+     - name: Disable Selinux
+       selinux:
+         state: disabled
