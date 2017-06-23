@@ -1,5 +1,5 @@
 ---
-- name: Enterprise Linux Server 7 Emre Baykal ffggjj
+- name: Enterprise Linux Server 7 Emre Baykal ffggjj  Deneme Deneme
   hosts: all
   
   vars:
