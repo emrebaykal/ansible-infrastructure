@@ -1,5 +1,5 @@
 ---
-- name: Enterprise Linux Server 7
+- name: Enterprise Linux Server 7 Emre Baykal ffggjj
   hosts: all
   
   vars:
@@ -10,13 +10,13 @@
    - block:
      - name: Disable Selinux
        selinux:
-         state: disabled  
+         state: disabled
      
      - name: Disable Firewall Service
        service:
           name: firewalld
           state: stopped
-          enabled: no
+          enabled: no 
    
      - name: Add ansible service user account
        user:
