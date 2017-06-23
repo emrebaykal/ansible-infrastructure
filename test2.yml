@@ -1,0 +1,13 @@
+---
+- name: Enterprise Linux Server 7 Emre Baykal ffggjj
+  hosts: all
+  
+  vars:
+   password : doZTsiy2t.Gt6
+   user : dogfish
+
+  tasks:
+   - block:
+     - name: Disable Selinux
+       selinux:
+         state: disabled
