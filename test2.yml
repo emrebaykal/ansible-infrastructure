@@ -1,5 +1,5 @@
 ---
-- name: Enterprise Linux Server 7 
+- name: Enterprise Linux Server 7 Haber Turk
   hosts: all
   
   vars:
