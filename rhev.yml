@@ -1,0 +1,16 @@
+---
+- name: RHEV Test Env
+  hosts: all
+
+- name: Rhevm Authentication
+  auth:
+   username: admin@internal
+   password: red83lera
+   url: https://lxrhvmt01.linuxera.hq/ovirt-engine/api/
+     
+  ovirt_vms:
+   - name: Creates a new Virtual Machine from template
+     state: present
+     name: myvm
+     template: rhel7_template
+...
