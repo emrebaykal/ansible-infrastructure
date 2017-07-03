@@ -1,0 +1,11 @@
+---
+- name: Install and Configure Apache Web Server
+  hosts: all
+  
+  tasks:
+   - name: Restart server
+     command: /sbin/shutdown -r +1
+     async: 0
+     poll: 0
+     ignore_errors: true
+...

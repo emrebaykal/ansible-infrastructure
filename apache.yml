@@ -1,0 +1,29 @@
+---
+- name: Install and Configure Apache Web Server
+  hosts: all
+  
+  tasks:
+  - block:
+    - name: Installing Latest version Of Apache
+      yum:
+        name: httpd
+        state: latest
+       
+  - block:    
+    - name: Copying the demo file
+      template: 
+        src: /etc/ansible/index.html 
+        dest: /var/www/html
+        owner: apache 
+        group: apache 
+        mode: 0644
+      
+    - name: (Enable it on System Boot)
+      service: name=httpd enabled=yes state=started
+      notify:
+
+       
+  handlers:
+    - name: Restart httpd
+      service: name=httpd state=restarted
+...

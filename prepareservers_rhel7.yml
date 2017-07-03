@@ -1,11 +1,7 @@
 ---
-- name: Enterprise Linux Server 7 Emre Baykal ffggjj
+- name: Enterprise Linux Server 7
   hosts: all
   
-  vars:
-   password : doZTsiy2t.Gt6
-   user : dogfish
-
   tasks:
    - block:
      - name: Disable Selinux
@@ -23,7 +19,7 @@
          name: dogfish
          shell: /bin/bash
          groups: wheel
-         password: doZTsiy2t.Gt6
+         password: "{{ upassword | password_hash('sha512') }}"
          append: yes
 
      - name: Allow wheel group to have passwordless sudo

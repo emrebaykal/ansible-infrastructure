@@ -1,0 +1,40 @@
+---
+- name: Prepare Servers for installation
+  hosts: all
+ 
+  
+  tasks:
+    - name: Install Satellite CA package.
+      yum:
+        name: http://lxsatp01.linuxera.hq/pub/katello-ca-consumer-latest.noarch.rpm
+        state: present
+    
+    - name: Subscribe Servers
+      redhat_subscription:
+        state: present
+        activationkey: RHEL7 OS
+        org_id: linuxera
+        
+    - name: Install Required Packages
+      yum:
+        name: unzip,java-1.8.0-openjdk
+        state: latest
+        
+    - name: Add ansible service user account
+      user:
+        name: user
+        shell: /bin/bash
+        groups: wheel
+        password: "{{ upassword | password_hash('sha512') }}"
+        append: yes
+        
+    - name: Disallow root SSH access
+      lineinfile: dest=/etc/ssh/sshd_config
+        regexp="^PermitRootLogin"
+        line="PermitRootLogin no"
+        state=present
+      notify: Restart ssh
+      
+  handlers:
+    - name: Restart ssh
+      service: name=sshd state=restarted
