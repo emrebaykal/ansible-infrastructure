@@ -12,5 +12,5 @@
    - name: Creates a new Virtual Machine from template
      state: present
      name: myvm
-     template: rhel7_template
+     template: lxrhel7tmp01
 ...
